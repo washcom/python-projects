@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family:'Times New Roman', Times, serif;
+            color: black;
+        }
+
+        .navbar {
+    background: linear-gradient(90deg, #1c7430, #007bff); /* Gradient */
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Black box shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Adjusted for better contrast */
+    font-size: 1rem;
+    margin-right: 15px;
+    transition: color 0.4s ease, transform 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {    
+    transform: scale(1.25);    
+}
+
+        .dashboard-container {
+            margin: 20px auto;
+            max-width: 1200px;
+            padding-top: 70px;
+        }
+
+        .dashboard-title {
+            text-align: center;
+            padding: 20px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 40px;
+        }
+        .product-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 250px; /* Set the height of the product card */
+            width: 170px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Black box shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            margin-left: 2px;           
+        }
+
+        .product-card:hover {
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            border-bottom: 2px solid #1c7430;
+            transition: transform 0.3s ease;
+            object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
+            height: 120px; /* Set height for the image */
+            width: 100%; /* Ensure the image fits the width */
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-card .card-title {
+            font-size: 1rem; /* Smaller font for product name */
+            color: #1c7430;
+            font-weight: bold;
+            margin: 5px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-text {
+            font-size: 0.85rem; /* Adjust price text size */
+            margin-bottom: 5px;
+        }
+
+        .modal-body img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        } 
+        #main {
+    display: flex;            
+    flex-direction: row; /* Change to row direction */
+    flex-wrap: wrap; /* Allows wrapping of items to the next line */
+    justify-content: center; /* Centers items horizontally */
+    } 
+  .btn {
+    background-color: #155724; /* Darker green for buttons */
+    color: white;
+    border: none; /* Removes default border */
+    padding: 10px 20px;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #1c7430; /* Matching navbar color */
+    color: white;
+}
+.profile-container {
+    max-width: 600px; /* Set max width for the profile section */
+    margin: 20px auto; /* Center the profile container */
+    padding: 20px;
+    border-radius: 15px; /* More pronounced rounded corners */
+    background: linear-gradient(90deg, #1c7430, #007bff); /* Gradient background matching navbar */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    text-align: center; /* Center align all text */
+    color:black; /* White text color for better contrast */
+}
+
+.profile-header {
+    margin-bottom: 20px; /* Space below header */
+}
+
+.profile-picture {
+    width: 120px; /* Set picture width */
+    height: 120px; /* Set picture height */
+    border-radius: 50%; /* Circular picture */
+    border: 1px solid #ffffff; /* White border around the picture */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Shadow for picture */
+    transition: transform 0.3s ease; /* Transition for hover effect */
+}
+
+.profile-picture:hover {
+    transform: scale(1.1); /* Slightly enlarge picture on hover */
+}
+
+.username {
+    margin-top: 10px; /* Space above username */
+    font-size: 2rem; /* Larger font size for username */
+    font-family: 'Arial', sans-serif; /* Change font for a modern look */
+    font-weight: bold; /* Bold username for emphasis */
+}
+
+.user-info {
+    margin-top: 20px; /* Space above user info section */
+    background-color: #ffffff; /* White background for the table */
+    border-radius: 10px; /* Rounded corners for the table */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow for the table */
+    padding: 15px; /* Padding inside the user info section */
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove spacing between table cells */
+}
+
+.profile-table th,
+.profile-table td {
+    padding: 10px; /* Padding for table cells */
+    text-align: left; /* Align text to the left */
+}
+
+.profile-table th {    
+    color: black; /* White text for headers */
+    font-weight: bold; /* Bold font for headers */
+}    </style>
+</head>
+<body>    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">&#128522;Hi,{{user.username}}&nbsp; </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'buyer_dashboard'%}"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Orders</a>
+                    </li>
+                                     
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+            <h2 class="username">{{ user.username }}</h2>
+        </div>
+        <div class="user-info">
+            <table class="profile-table">
+                <tbody>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>First Name:</th>
+                        <td>{{ user.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Last Name:</th>
+                        <td>{{ user.last_name }}</td>
+                    </tr>
+                    <!-- Add more user fields as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

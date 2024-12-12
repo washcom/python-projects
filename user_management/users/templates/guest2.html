@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        /* Navbar Button Hover Effect */
+        .btn-success, .btn-primary {
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 30px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Product Card Hover Effect */
+        .product-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 220px; /* Set the height of the product card */
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Black box shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            margin-left: 2px;           
+        }
+
+        .product-card:hover {
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            border-bottom: 2px solid #1c7430;
+            transition: transform 0.3s ease;
+            object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
+            height: 120px; /* Set height for the image */
+            width: 100%; /* Ensure the image fits the width */
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-card .card-title {
+            font-size: 1rem; /* Smaller font for product name */
+            color: #1c7430;
+            font-weight: bold;
+            margin: 5px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-text {
+            font-size: 0.85rem; /* Adjust price text size */
+            margin-bottom: 5px;
+        }
+
+        /* Categories Icons */
+        .icon-box {
+            font-size: 3rem;
+            color: #1c7430;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .icon-box:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #1a5e29;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.3);
+            font-family: 'Arial', sans-serif;
+        }
+
+        footer h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer p {
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #ffeb3b;
+            transition: color 0.4s ease, transform 0.3s ease;
+            font-size: 1.1rem;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ff9800;
+            transform: translateY(-2px);
+        }
+
+        footer .social-icons {
+            margin-top: 15px;
+        }
+
+        footer .social-icons a {
+            margin: 0 10px;
+            font-size: 1.8rem;
+            color: #ffeb3b;
+            transition: transform 0.3s ease;
+        }
+
+        footer .social-icons a:hover {
+            transform: scale(1.2);
+        }
+
+        footer .footer-logo {
+            margin-bottom: 20px;
+        }
+
+        footer .footer-logo img {
+            width: 100px;
+            height: auto;
+        }
+        
+        .modal-body img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        } 
+        #main {
+    display: flex;            
+    flex-direction: row; /* Change to row direction */
+    flex-wrap: wrap; /* Allows wrapping of items to the next line */
+    justify-content: center; /* Centers items horizontally */
+    }  
+    </style>
+    <!-- Featured Products Section -->     
+    <div class="row justify-content-center mt-5" id="main">
+        {% for product in products %}
+        <div class="col-md-2 mb-4"> <!-- Adjust column size if necessary -->
+            <!-- Product Card -->
+            <div class="card product-card shadow-sm">
+                <!-- Product Image -->
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }} Image" data-bs-toggle="modal" data-bs-target="#modal{{ product.id }}">
+                <!-- Product Information -->
+                <div class="card-body text-center">
+                    <h6 class="card-title">{{ product.name }}</h6>
+                    <p class="card-text">Price: {{ product.price }}</p>
+                    <!-- Add to Cart Button -->
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        {% if user.is_authenticated %}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi-cart-fill me-1"></i>&nbsp;Add to Cart
+                        </button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>    
+        <!-- Modal for Image Viewing -->
+        <div class="modal fade" id="modal{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ product.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel{{ product.id }}">{{ product.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }} Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Categories Section -->
+    <section class="categories py-5 bg-light">
+        <div class="container text-center">
+            <h5>Shop by Categories</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="fas fa-carrot icon-box"></i>
+                    <h5>Vegetables</h5>
+                </div>
+                <div class="col-md-3">
+                    <i class="fas fa-apple-alt icon-box"></i>
+                    <h5>Fruits</h5>
+                </div>
+                <div class="col-md-3">
+                    <i class="fas fa-seedling icon-box"></i>
+                    <h5>Grains</h5>
+                </div>
+                <div class="col-md-3">
+                    <i class="fas fa-pepper-hot icon-box"></i>
+                    <h5>Spices</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">
+            <img src="path/to/your-logo.png" alt="E-Farm Logo"> <!-- Replace with actual logo path -->
+        </div>
+        <h3>Stay Connected</h3>
+        <p>Your reliable partner in farming.</p>
+        <a href="#">About Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <div class="social-icons">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin-in"></a>
+        </div>
+        <p>&copy; 2024 E-Farm. All rights reserved.</p>
+    </footer>
+{% endblock %}
